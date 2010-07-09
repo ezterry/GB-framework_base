@@ -95,7 +95,8 @@ SurfaceFlinger::SurfaceFlinger()
         mLastTransactionTime(0),
         mBootFinished(false),
         mConsoleSignals(0),
-        mSecureFrameBuffer(0)
+        mSecureFrameBuffer(0),
+        mUseDithering(true)
 {
     init();
 }
@@ -113,6 +114,11 @@ void SurfaceFlinger::init()
 
     LOGI_IF(mDebugRegion,       "showupdates enabled");
     LOGI_IF(mDebugBackground,   "showbackground enabled");
+    property_get("persist.sys.use_dithering", value, "1");
+    mUseDithering = atoi(value) == 1;
+
+    LOGI_IF(mUseDithering,      "dithering enabled");
+
 }
 
 SurfaceFlinger::~SurfaceFlinger()
