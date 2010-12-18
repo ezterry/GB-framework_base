@@ -40,7 +40,7 @@ endif # USE_CAMERA_STUB
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES:=               \
-    CameraService.cpp
+    CameraService.cpp NoGingerbread.cpp
 
 LOCAL_SHARED_LIBRARIES:= \
     libui \
@@ -62,5 +62,7 @@ LOCAL_STATIC_LIBRARIES += libcamerastub
 else
 LOCAL_SHARED_LIBRARIES += libcamera 
 endif
+
+$(warning $(LOCAL_SHARED_LIBRARIES))
 
 include $(BUILD_SHARED_LIBRARY)
