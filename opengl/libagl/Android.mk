@@ -6,6 +6,11 @@ LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
 
+# Set to 1 to use gralloc and copybits
+# (Copybits originally by Mathias Agopian, ported to gingerbread by 
+#  ezterry based on informaiton from Pascal Bernier)
+LIBAGL_USE_GRALLOC_COPYBITS := 1
+
 LOCAL_SRC_FILES:= \
 	egl.cpp                     \
 	state.cpp		            \
@@ -46,6 +51,12 @@ ifneq ($(TARGET_SIMULATOR),true)
         LOCAL_CFLAGS += -DHAVE_ARM_TLS_REGISTER
     endif
     LOCAL_C_INCLUDES += bionic/libc/private
+endif
+
+ifeq ($(LIBAGL_USE_GRALLOC_COPYBITS),1)
+    LOCAL_CFLAGS += -DLIBAGL_USE_GRALLOC_COPYBITS
+    LOCAL_SRC_FILES += copybit.cpp
+    LOCAL_SHARED_LIBRARIES += libui
 endif
 
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/egl

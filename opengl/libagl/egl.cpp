@@ -480,14 +480,24 @@ void egl_window_surface_v2_t::copyBlt(
     copybit_device_t* const copybit = blitengine;
     if (copybit)  {
         copybit_image_t simg;
+#ifdef LIBAGL_USE_GRALLOC_COPYBITS
+        simg.w = src->stride;
+        simg.h = src->height;
+#else
         simg.w = src->width;
         simg.h = src->height;
+#endif // LIBAGL_USE_GRALLOC_COPYBITS
         simg.format = src->format;
         simg.handle = const_cast<native_handle_t*>(src->handle);
 
         copybit_image_t dimg;
+#ifdef LIBAGL_USE_GRALLOC_COPYBITS
+        dimg.w = dst->stride;
+        dimg.h = dst->height;
+#else
         dimg.w = dst->width;
         dimg.h = dst->height;
+#endif // LIBAGL_USE_GRALLOC_COPYBITS
         dimg.format = dst->format;
         dimg.handle = const_cast<native_handle_t*>(dst->handle);
         
@@ -621,6 +631,23 @@ EGLBoolean egl_window_surface_v2_t::setSwapRectangle(
     return EGL_TRUE;
 }
 
+#ifdef LIBAGL_USE_GRALLOC_COPYBITS
+
+static bool supportedCopybitsDestinationFormat(int format) {
+    // Hardware supported
+    switch (format) {
+        case HAL_PIXEL_FORMAT_RGB_565:
+        case HAL_PIXEL_FORMAT_RGBA_8888:
+        case HAL_PIXEL_FORMAT_RGBX_8888:
+        case HAL_PIXEL_FORMAT_RGBA_4444:
+        case HAL_PIXEL_FORMAT_RGBA_5551:
+        case HAL_PIXEL_FORMAT_BGRA_8888:
+            return true;
+    }
+    return false;
+}
+#endif
+
 EGLBoolean egl_window_surface_v2_t::bindDrawSurface(ogles_context_t* gl)
 {
     GGLSurface buffer;
@@ -633,6 +660,18 @@ EGLBoolean egl_window_surface_v2_t::bindDrawSurface(ogles_context_t* gl)
     gl->rasterizer.procs.colorBuffer(gl, &buffer);
     if (depth.data != gl->rasterizer.state.buffers.depth.data)
         gl->rasterizer.procs.depthBuffer(gl, &depth);
+
+#ifdef LIBAGL_USE_GRALLOC_COPYBITS
+    gl->copybits.drawSurfaceBuffer = 0;
+    if (gl->copybits.blitEngine != NULL && 
+        supportedCopybitsDestinationFormat(buffer.format)) 
+    {
+        buffer_handle_t handle = this->buffer->handle;
+        if (handle != NULL) {
+            gl->copybits.drawSurfaceBuffer = this->buffer;
+        }
+    }
+#endif // LIBAGL_USE_GRALLOC_COPYBITS
 
     return EGL_TRUE;
 }
