@@ -121,7 +121,12 @@ public final class ShutdownThread extends Thread {
                                 beginShutdownSequence(context);
                             }
                         })
-                        .setNegativeButton(com.android.internal.R.string.no, null)
+                        .setNegativeButton(com.android.internal.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //clear reboot status on cancel
+                                mReboot = false;
+                            }
+                        }) 
                         .create();
             } else {
                 dialog = new AlertDialog.Builder(context)
