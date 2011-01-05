@@ -29,14 +29,14 @@ copy_from :=                \
     Clockopia.ttf
 
 ifeq ($(INCLUDE_FONT_DROIDSANSJAPANESE),true)
-    copy_from += DroidSansJapanese.ttf
+    copy_from += DroidSansJapanese.ttf \
+                 MTLc3m.ttf
 endif
 
 ifneq ($(NO_FALLBACK_FONT),true)
 ifeq ($(filter %system/fonts/DroidSansFallback.ttf,$(PRODUCT_COPY_FILES)),)
     # if the product makefile has set the the fallback font, don't override it.
-    copy_from += DroidSansFallback.ttf \
-                 MTLc3m.ttf
+    copy_from += DroidSansFallback.ttf
 endif
 endif
 
