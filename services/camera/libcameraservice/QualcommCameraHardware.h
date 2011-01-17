@@ -14,6 +14,11 @@
 ** limitations under the License.
 */
 
+/*******
+Note this is a minimal header intended for the froyo licamera.so shim
+please note it may be incomplete for other purposes
+********/
+
 #ifndef ANDROID_HARDWARE_QUALCOMM_CAMERA_HARDWARE_H
 #define ANDROID_HARDWARE_QUALCOMM_CAMERA_HARDWARE_H
 

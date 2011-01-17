@@ -1,5 +1,10 @@
 #include "QualcommCameraHardware.h"
 
+/****
+Simple "NoGingerbread" libcamera.so shim
+Assumes we have 1 back facing camera
+****/
+
 namespace android {
 
 static CameraInfo sCameraInfo[] = {

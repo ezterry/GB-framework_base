@@ -40,7 +40,14 @@ endif # USE_CAMERA_STUB
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES:=               \
-    CameraService.cpp NoGingerbread.cpp
+    CameraService.cpp
+    
+ifeq ($(NO_GINGERBRED_CAMERA_SHIM),true)
+# Use the NoGingerbread camera shim
+# to interface with the froyo libcamera.so
+
+LOCAL_SRC_FILES += NoGingerbread.cpp
+endif
 
 LOCAL_SHARED_LIBRARIES:= \
     libui \
