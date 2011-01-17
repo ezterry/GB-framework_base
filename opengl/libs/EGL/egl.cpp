@@ -1888,8 +1888,8 @@ EGLClientBuffer eglGetRenderBufferANDROID(EGLDisplay dpy, EGLSurface draw)
         return 0;    
     egl_display_t const * const dp = get_display(dpy);
     egl_surface_t const * const s = get_surface(draw);
-    if (s->cnx->hooks->egl.eglGetRenderBufferANDROID) {
-        return s->cnx->hooks->egl.eglGetRenderBufferANDROID(dp->dpys[s->impl],
+    if (s->cnx->egl.eglGetRenderBufferANDROID) {
+        return s->cnx->egl.eglGetRenderBufferANDROID(dp->disp[s->impl].dpy,
                 s->surface);
     }
     return 0;
