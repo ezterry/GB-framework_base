@@ -40,5 +40,28 @@ ifeq ($(filter %system/fonts/DroidSansFallback.ttf,$(PRODUCT_COPY_FILES)),)
 endif
 endif
 
+ifeq ($(TARGET_SQUASH_FONTS),true)
+
+file := $(TARGET_OUT)/fonts/fonts.sqf
+input_font_files := $(foreach cf,$(copy_from),$(LOCAL_PATH)/$(cf))
+
+ALL_PREBUILT += $(file)
+
+$(file) : $(input_font_files) | $(ACP)
+	#remove any old SYSFONT_INTERMEDIATES dir
+	rm -rf $(TARGET_OUT_INTERMEDIATES)/SYSFONT_INTERMEDIATES
+	#make sure new dirs exist
+	mkdir -p $(TARGET_OUT_INTERMEDIATES)/SYSFONT_INTERMEDIATES
+	mkdir -p $(TARGET_OUT)/fonts
+	#copy to working dir
+	cp  $(input_font_files) $(TARGET_OUT_INTERMEDIATES)/SYSFONT_INTERMEDIATES
+	#verify perms
+	chmod 0644 $(TARGET_OUT_INTERMEDIATES)/SYSFONT_INTERMEDIATES/*.ttf
+	#create the sqf
+	mksquashfs $(TARGET_OUT_INTERMEDIATES)/SYSFONT_INTERMEDIATES \
+	           $(TARGET_OUT)/fonts/fonts.sqf -all-root
+
+else
 copy_file_pairs := $(foreach cf,$(copy_from),$(LOCAL_PATH)/$(cf):system/fonts/$(cf))
 PRODUCT_COPY_FILES += $(copy_file_pairs)
+endif
