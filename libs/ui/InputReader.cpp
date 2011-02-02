@@ -1418,8 +1418,8 @@ bool TouchInputMapper::configureSurfaceLocked() {
         }
     } else {
         orientation = InputReaderPolicyInterface::ROTATION_0;
-        width = mRawAxes.x.getRange();
-        height = mRawAxes.y.getRange();
+        width = mRawAxes.x.getRange() + 1;
+        height = mRawAxes.y.getRange() + 1;
     }
 
     bool orientationChanged = mLocked.surfaceOrientation != orientation;
@@ -1439,8 +1439,8 @@ bool TouchInputMapper::configureSurfaceLocked() {
         if (mRawAxes.x.valid && mRawAxes.y.valid) {
             mLocked.xOrigin = mRawAxes.x.minValue;
             mLocked.yOrigin = mRawAxes.y.minValue;
-            mLocked.xScale = float(width) / mRawAxes.x.getRange();
-            mLocked.yScale = float(height) / mRawAxes.y.getRange();
+            mLocked.xScale = float(width) / (mRawAxes.x.getRange() + 1);
+            mLocked.yScale = float(height) / (mRawAxes.y.getRange() + 1);
             mLocked.xPrecision = 1.0f / mLocked.xScale;
             mLocked.yPrecision = 1.0f / mLocked.yScale;
 
@@ -2476,7 +2476,7 @@ void TouchInputMapper::dispatchTouch(nsecs_t when, uint32_t policyFlags,
             case InputReaderPolicyInterface::ROTATION_90: {
                 float xTemp = x;
                 x = y;
-                y = mLocked.surfaceWidth - xTemp;
+                y = mLocked.surfaceWidth - xTemp - 1;
                 orientation -= M_PI_2;
                 if (orientation < - M_PI_2) {
                     orientation += M_PI;
@@ -2484,14 +2484,14 @@ void TouchInputMapper::dispatchTouch(nsecs_t when, uint32_t policyFlags,
                 break;
             }
             case InputReaderPolicyInterface::ROTATION_180: {
-                x = mLocked.surfaceWidth - x;
-                y = mLocked.surfaceHeight - y;
+                x = mLocked.surfaceWidth - x - 1;
+                y = mLocked.surfaceHeight - y - 1;
                 orientation = - orientation;
                 break;
             }
             case InputReaderPolicyInterface::ROTATION_270: {
                 float xTemp = x;
-                x = mLocked.surfaceHeight - y;
+                x = mLocked.surfaceHeight - y - 1;
                 y = xTemp;
                 orientation += M_PI_2;
                 if (orientation > M_PI_2) {
