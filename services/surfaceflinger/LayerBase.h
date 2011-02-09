@@ -187,10 +187,12 @@ public:
      */
     virtual bool needsFiltering() const { return mNeedsFiltering; }
 
+#ifdef AVOID_DRAW_TEXTURE
     /**
      * transformed -- true is this surface needs a to be transformed
      */
     virtual bool transformed() const    { return mTransformed; }
+#endif
 
     /**
      * isSecure - true if this surface is secure, that is if it prevents
