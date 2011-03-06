@@ -9093,6 +9093,14 @@ public final class ActivityManagerService extends ActivityManagerNative
             if (DEBUG_SERVICE) Slog.v(
                 TAG, "Removed service that is not running: " + r);
         }
+
+        if (r.bindings.size() > 0) {
+            r.bindings.clear();
+        }
+
+        if (r.restarter instanceof ServiceRestarter) {
+           ((ServiceRestarter)r.restarter).setService(null);
+        }
     }
 
     ComponentName startServiceLocked(IApplicationThread caller,
@@ -9231,7 +9239,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                 // r.record is null if findServiceLocked() failed the caller permission check
                 if (r.record == null) {
                     throw new SecurityException(
-                            "Permission Denial: Accessing service " + r.record.name
+                            "Permission Denial: Accessing service "
                             + " from pid=" + Binder.getCallingPid()
                             + ", uid=" + Binder.getCallingUid()
                             + " requires " + r.permission);
@@ -9767,6 +9775,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                 if (DEBUG_SERVICE) Slog.v(TAG,
                         "doneExecuting remove stopping " + r);
                 mStoppingServices.remove(r);
+                r.bindings.clear();
             }
             updateOomAdjLocked(r.app);
         }
@@ -11000,6 +11009,9 @@ public final class ActivityManagerService extends ActivityManagerNative
                             performReceiveLocked(r.callerApp, r.resultTo,
                                 new Intent(r.intent), r.resultCode,
                                 r.resultData, r.resultExtras, false, false);
+                            // Set this to null so that the reference
+                            // (local and remote) isnt kept in the mBroadcastHistory.
+                            r.resultTo = null;
                         } catch (RemoteException e) {
                             Slog.w(TAG, "Failure sending broadcast result of " + r.intent, e);
                         }

@@ -43,7 +43,6 @@ endif
 
 LOCAL_SHARED_LIBRARIES := \
 	libcutils \
-	libpixelflinger \
 	libhardware \
 	libutils \
 	libEGL \
