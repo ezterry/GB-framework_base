@@ -48,7 +48,7 @@
 #define assert(_Expression)     ((void)0)
 #endif
 
-#ifdef LINUX
+#ifndef _MSC_VER
 #define __inline static __inline__
 #endif
 
