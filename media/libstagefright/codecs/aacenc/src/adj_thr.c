@@ -1129,7 +1129,7 @@ void AdjustThresholds(ADJ_THR_STATE   *adjThrState,
 					  const Word16     nChannels,
                       const Word16     maxBitFac)
 {
-  PE_DATA peData;
+  PE_DATA peData = { 0 };
   Word16 noRedPe, grantedPe, grantedPeCorr;
   Word16 curWindowSequence;
   Word16 bitFactor;
