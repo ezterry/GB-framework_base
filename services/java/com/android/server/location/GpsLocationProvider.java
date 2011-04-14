@@ -489,8 +489,12 @@ public class GpsLocationProvider implements LocationProviderInterface {
         }
 
         if (info != null) {
+            boolean dataEnabled = Settings.Secure.getInt(mContext.getContentResolver(),
+                                                         Settings.Secure.MOBILE_DATA, 1) == 1;
+            boolean networkAvailable = info.isAvailable() && dataEnabled;
+
             native_update_network_state(info.isConnected(), info.getType(),
-                    info.isRoaming(), info.getExtraInfo());
+                    info.isRoaming(), networkAvailable, info.getExtraInfo());
         }
 
         if (info != null && info.getType() == ConnectivityManager.TYPE_MOBILE_SUPL
@@ -1612,5 +1616,5 @@ public class GpsLocationProvider implements LocationProviderInterface {
     private native void native_agps_set_id(int type, String setid);
 
     private native void native_update_network_state(boolean connected, int type,
-            boolean roaming, String extraInfo);
+            boolean roaming, boolean available, String extraInfo);
 }
