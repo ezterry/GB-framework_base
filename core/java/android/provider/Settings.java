@@ -2303,6 +2303,11 @@ public final class Settings {
         public static final String ADB_ENABLED = "adb_enabled";
 
         /**
+         * zRam size (MB)
+         */
+        public static final String ZRAM_SIZE = "zram_size";
+
+        /**
          * Setting to allow mock locations and location provider status to be injected into the
          * LocationManager service for testing purposes during application development.  These
          * locations and status values  override actual location and status information generated
@@ -3471,6 +3476,7 @@ public final class Settings {
          */
         public static final String[] SETTINGS_TO_BACKUP = {
             ADB_ENABLED,
+            ZRAM_SIZE,
             ALLOW_MOCK_LOCATION,
             PARENTAL_CONTROL_ENABLED,
             PARENTAL_CONTROL_REDIRECT_URL,
