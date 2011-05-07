@@ -733,6 +733,8 @@ class PackageManagerService extends IPackageManager.Stub {
         mSettings = new Settings();
         mSettings.addSharedUserLP("android.uid.system",
                 Process.SYSTEM_UID, ApplicationInfo.FLAG_SYSTEM);
+        mSettings.addSharedUserLP("android.uid.superuser",
+                Process.SUPERUSER_UID, ApplicationInfo.FLAG_SYSTEM);
         mSettings.addSharedUserLP("android.uid.phone",
                 MULTIPLE_APPLICATION_UIDS
                         ? RADIO_UID : FIRST_APPLICATION_UID,
@@ -2876,13 +2878,24 @@ class PackageManagerService extends IPackageManager.Stub {
 
         if (!pkg.applicationInfo.sourceDir.startsWith(Environment.getRootDirectory().getPath()) &&
                 !pkg.applicationInfo.sourceDir.startsWith("/vendor")) {
-            Object obj = mSettings.getUserIdLP(1000);
+            Object obj = mSettings.getUserIdLP(Process.SYSTEM_UID);
             Signature[] s1 = null;
             if (obj instanceof SharedUserSetting) {
                 s1 = ((SharedUserSetting)obj).signatures.mSignatures;
             }
             if ((checkSignaturesLP(pkg.mSignatures, s1) == PackageManager.SIGNATURE_MATCH)) {
                 Slog.w(TAG, "Cannot install platform packages to user storage");
+                mLastScanError = PackageManager.INSTALL_FAILED_INVALID_INSTALL_LOCATION;
+                return null;
+            }
+            // Check superuser.apk as well
+            obj = mSettings.getUserIdLP(Process.SUPERUSER_UID);
+            s1 = null;
+            if (obj instanceof SharedUserSetting) {
+                s1 = ((SharedUserSetting)obj).signatures.mSignatures;
+            }
+            if ((checkSignaturesLP(pkg.mSignatures, s1) == PackageManager.SIGNATURE_MATCH)) {
+                Slog.w(TAG, "Cannot install Superuser packages to user storage");
                 mLastScanError = PackageManager.INSTALL_FAILED_INVALID_INSTALL_LOCATION;
                 return null;
             }

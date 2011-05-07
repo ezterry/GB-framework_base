@@ -92,6 +92,12 @@ public class Process {
     public static final int NFC_UID = 1025;
 
     /**
+     * Define the superuser.apk userid
+     **/
+
+    public static final int SUPERUSER_UID = 2900;
+
+    /**
      * Defines the start of a range of UIDs (and GIDs), going from this
      * number to {@link #LAST_APPLICATION_UID} that are reserved for assigning
      * to applications.
