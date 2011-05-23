@@ -703,7 +703,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             try {
                 stmt = db.compileStatement("INSERT INTO system(name,value)"
                         + " VALUES(?,?);");
-                loadSetting(stmt, Secure.SET_INSTALL_LOCATION, 0);
+                loadSetting(stmt, Secure.SET_INSTALL_LOCATION, 1);
                 loadSetting(stmt, Secure.DEFAULT_INSTALL_LOCATION,
                         PackageHelper.APP_INSTALL_AUTO);
                 db.setTransactionSuccessful();

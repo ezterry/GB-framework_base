@@ -274,6 +274,13 @@ public abstract class PackageManager {
     public static final int DONT_KILL_APP = 0x00000001;
 
     /**
+     * Flag parameter for {@link #installPackage} to indicate that this
+     * package has to be installed on the sdext.
+     * @hide
+     */
+    public static final int INSTALL_SDEXT = 0x00000020;
+
+    /**
      * Installation return code: this is passed to the {@link IPackageInstallObserver} by
      * {@link #installPackage(android.net.Uri, IPackageInstallObserver, int)} on success.
      * @hide
@@ -631,6 +638,13 @@ public abstract class PackageManager {
      * @hide
      */
     public static final int MOVE_EXTERNAL_MEDIA = 0x00000002;
+
+    /**
+     * Flag parameter for {@link #movePackage} to indicate that
+     * the package should be moved to sd-ext.
+     * @hide
+     */
+    public static final int MOVE_SDEXT = 0x00000004;
 
     /**
      * Feature for {@link #getSystemAvailableFeatures} and

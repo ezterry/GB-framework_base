@@ -678,6 +678,8 @@
              up being installed on internal storage if external media
              is unavailable or too full. -->
         <enum name="preferExternal" value="2" />
+        <!-- Prefer to install on sd-ext partition -->
+        <enum name="preferSdext" value="3" />
     </attr>
 
     <!-- The <code>manifest</code> tag is the root of an

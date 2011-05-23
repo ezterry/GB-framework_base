@@ -34,6 +34,7 @@ import java.io.File;
 public class PackageHelper {
     public static final int RECOMMEND_INSTALL_INTERNAL = 1;
     public static final int RECOMMEND_INSTALL_EXTERNAL = 2;
+    public static final int RECOMMEND_INSTALL_SDEXT = 3;
     public static final int RECOMMEND_FAILED_INSUFFICIENT_STORAGE = -1;
     public static final int RECOMMEND_FAILED_INVALID_APK = -2;
     public static final int RECOMMEND_FAILED_INVALID_LOCATION = -3;
@@ -45,6 +46,7 @@ public class PackageHelper {
     public static final int APP_INSTALL_AUTO = 0;
     public static final int APP_INSTALL_INTERNAL = 1;
     public static final int APP_INSTALL_EXTERNAL = 2;
+    public static final int APP_INSTALL_SDEXT = 3;
 
     public static IMountService getMountService() {
         IBinder service = ServiceManager.getService("mount");

@@ -687,6 +687,8 @@ public final class Pm {
                 locStr = "internal";
             } else if (loc == PackageHelper.APP_INSTALL_EXTERNAL) {
                 locStr = "external";
+            } else if (loc == PackageHelper.APP_INSTALL_SDEXT) {
+                locStr = "sd-ext";
             }
             System.out.println(loc + "[" + locStr + "]");
         } catch (RemoteException e) {
@@ -720,6 +722,15 @@ public final class Pm {
             } else if (opt.equals("-f")) {
                 // Override if -s option is specified.
                 installFlags |= PackageManager.INSTALL_INTERNAL;
+            } else if (opt.equals("-e")) {
+                if (!android.os.Environment.IsSdExtMounted()) {
+                    showUsage();
+                    System.err.println("Error: /sd-ext not mounted");
+                    return;
+                } else {
+                    // Override if -e option is specified.
+                    installFlags |= PackageManager.INSTALL_SDEXT;
+                }
             } else {
                 showUsage();
                 System.err.println("Error: Unknown option: " + opt);
@@ -998,12 +1009,20 @@ public final class Pm {
         System.err.println("       pm list features");
         System.err.println("       pm list libraries");
         System.err.println("       pm path PACKAGE");
-        System.err.println("       pm install [-l] [-r] [-t] [-i INSTALLER_PACKAGE_NAME] [-s] [-f] PATH");
+        if (android.os.Environment.IsSdExtMounted()) {
+            System.err.println("       pm install [-l] [-r] [-t] [-i INSTALLER_PACKAGE_NAME] [-s] [-f] [-e] PATH");
+        } else {
+            System.err.println("       pm install [-l] [-r] [-t] [-i INSTALLER_PACKAGE_NAME] [-s] [-f] PATH");
+        }
         System.err.println("       pm uninstall [-k] PACKAGE");
         System.err.println("       pm clear PACKAGE");
         System.err.println("       pm enable PACKAGE_OR_COMPONENT");
         System.err.println("       pm disable PACKAGE_OR_COMPONENT");
-        System.err.println("       pm setInstallLocation [0/auto] [1/internal] [2/external]");
+        if (android.os.Environment.IsSdExtMounted()) {
+            System.err.println("       pm setInstallLocation [0/auto] [1/internal] [2/external] [3/sd-ext]");
+        } else {
+            System.err.println("       pm setInstallLocation [0/auto] [1/internal] [2/external]");
+        }
         System.err.println("");
         System.err.println("The list packages command prints all packages, optionally only");
         System.err.println("those whose package name contains the text in FILTER.  Options:");
@@ -1038,6 +1057,9 @@ public final class Pm {
         System.err.println("  -i: specify the installer package name.");
         System.err.println("  -s: install package on sdcard.");
         System.err.println("  -f: install package on internal flash.");
+        if (android.os.Environment.IsSdExtMounted()) {
+            System.err.println("  -e: install package on sd-ext.");
+        }
         System.err.println("");
         System.err.println("The uninstall command removes a package from the system. Options:");
         System.err.println("  -k: keep the data and cache directories around.");
@@ -1049,14 +1071,18 @@ public final class Pm {
         System.err.println("a given package or component (written as \"package/class\").");
         System.err.println("");
         System.err.println("The getInstallLocation command gets the current install location");
-        System.err.println("  0 [auto]: Let system decide the best location");
+        System.err.println("  0 [auto]    : Let system decide the best location");
         System.err.println("  1 [internal]: Install on internal device storage");
         System.err.println("  2 [external]: Install on external media");
+        System.err.println("  3 [sd-ext]  : Install on sd-ext");
         System.err.println("");
         System.err.println("The setInstallLocation command changes the default install location");
-        System.err.println("  0 [auto]: Let system decide the best location");
+        System.err.println("  0 [auto]    : Let system decide the best location");
         System.err.println("  1 [internal]: Install on internal device storage");
         System.err.println("  2 [external]: Install on external media");
+        if (android.os.Environment.IsSdExtMounted()) {
+            System.err.println("  3 [sd-ext]  : Install on sd-ext");
+        }
         System.err.println("");
     }
 }

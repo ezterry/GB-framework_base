@@ -83,6 +83,9 @@ public class Environment {
     private static final File DATA_DIRECTORY
             = getDirectory("ANDROID_DATA", "/data");
 
+    private static final File SD_EXT_DIRECTORY
+            = getDirectory("SD_EXT_DIRECTORY", "/sd-ext");
+
     /**
      * @hide
      */
@@ -108,6 +111,15 @@ public class Environment {
      */
     public static File getDataDirectory() {
         return DATA_DIRECTORY;
+    }
+
+    /**
+     * Gets the SD EXT directory.
+     * @hide
+     */
+
+    public static File getSdExtDirectory() {
+        return SD_EXT_DIRECTORY;
     }
 
     /**
@@ -408,5 +420,12 @@ public class Environment {
     static File getDirectory(String variableName, String defaultPath) {
         String path = System.getenv(variableName);
         return path == null ? new File(defaultPath) : new File(path);
+    }
+    /**
+     * Returns if sd-ext is mounted or not
+     */
+    public static boolean IsSdExtMounted() {
+       // TODO , move this somewhere more appropriate , and have it check vold and not some prop
+       return android.os.SystemProperties.getBoolean("magpie.a2sd.active", false);
     }
 }

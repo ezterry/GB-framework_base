@@ -62,6 +62,7 @@
 #define CACHE_DIR_POSTFIX      "/cache"
 
 #define APK_DIR_PREFIX         "/data/app/"
+#define APK_EXT_DIR_PREFIX     "/sd-ext/app/"
 
 /* Encrypted File SYstems constants */
 #define USE_ENCRYPTED_FS       1
@@ -70,9 +71,12 @@
 /* other handy constants */
 
 #define PROTECTED_DIR_PREFIX  "/data/app-private/"
+#define PROTECTED_EXT_DIR_PREFIX "/sd-ext/app-private/"
 #define SDCARD_DIR_PREFIX  getenv("ASEC_MOUNTPOINT")
 
 #define DALVIK_CACHE_PREFIX   "/data/dalvik-cache/"
+#define DALVIK_SYSTEM_CACHE_PREFIX "/cache/dalvik-cache/"
+#define DALVIK_SDEXT_CACHE_PREFIX "/sd-ext/dalvik-cache/"
 #define DALVIK_CACHE_POSTFIX  "/classes.dex"
 
 #define UPDATE_COMMANDS_DIR_PREFIX  "/system/etc/updatecmds/"
@@ -105,7 +109,7 @@ int delete_user_data(const char *pkgname, int encrypted_fs_flag);
 int delete_cache(const char *pkgname, int encrypted_fs_flag);
 int move_dex(const char *src, const char *dst);
 int rm_dex(const char *path);
-int protect(char *pkgname, gid_t gid);
+int protect(char *pkgname, gid_t gid, int InstLocation);
 int get_size(const char *pkgname, const char *apkpath, const char *fwdlock_apkpath,
              int64_t *codesize, int64_t *datasize, int64_t *cachesize, int encrypted_fs_flag);
 int free_cache(int64_t free_size);

@@ -362,6 +362,7 @@ public class PackageParser {
     public final static int PARSE_FORWARD_LOCK = 1<<4;
     public final static int PARSE_ON_SDCARD = 1<<5;
     public final static int PARSE_IS_SYSTEM_DIR = 1<<6;
+    public final static int PARSE_ON_SDEXT = 1<<7;
 
     public int getParseError() {
         return mParseError;
@@ -1529,6 +1530,10 @@ public class PackageParser {
 
         if ((flags & PARSE_ON_SDCARD) != 0) {
             ai.flags |= ApplicationInfo.FLAG_EXTERNAL_STORAGE;
+        }
+
+        if ((flags & PARSE_ON_SDEXT) != 0) {
+            ai.flags |= ApplicationInfo.FLAG_SDEXT_STORAGE;
         }
 
         if (sa.getBoolean(
