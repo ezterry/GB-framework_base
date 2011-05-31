@@ -134,7 +134,10 @@
     <string name="screen_lock" msgid="799094655496098153">"Verrouillage de l\'écran"</string>
     <string name="power_off" msgid="4266614107412865048">"Éteindre"</string>
     <string name="shutdown_progress" msgid="2281079257329981203">"Arrêt en cours..."</string>
+    <string name="reboot_progress">Redémarrage en cours\u2026</string>
     <string name="shutdown_confirm" msgid="649792175242821353">"Votre téléphone va s\'éteindre."</string>
+    <string name="reboot_confirm">Votre téléphone va redémarrer.</string>
+    <string name="reboot_system">Redémarrer le téléphone</string>
     <string name="recent_tasks_title" msgid="3691764623638127888">"Récentes"</string>
     <string name="no_recent_tasks" msgid="279702952298056674">"Aucune application récente"</string>
     <string name="global_actions" msgid="2406416831541615258">"Options du téléphone"</string>
@@ -143,6 +146,7 @@
     <string name="global_action_toggle_silent_mode" msgid="8219525344246810925">"Mode silencieux"</string>
     <string name="global_action_silent_mode_on_status" msgid="3289841937003758806">"Le son est désactivé."</string>
     <string name="global_action_silent_mode_off_status" msgid="1506046579177066419">"Le son est activé."</string>
+    <string name="global_action_reboot">Redémarrer</string>
     <string name="global_actions_toggle_airplane_mode" msgid="5884330306926307456">"Mode Avion"</string>
     <string name="global_actions_airplane_mode_on_status" msgid="2719557982608919750">"Le mode Avion est activé."</string>
     <string name="global_actions_airplane_mode_off_status" msgid="5075070442854490296">"Le mode Avion est désactivé."</string>
