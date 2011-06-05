@@ -40,6 +40,7 @@ import android.os.StatFs;
 import android.provider.Telephony;
 import android.provider.Telephony.Sms.Intents;
 import android.provider.Settings;
+import android.os.SystemProperties;
 import android.telephony.SmsMessage;
 import android.telephony.ServiceState;
 import android.util.Config;
@@ -52,6 +53,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import android.os.SystemClock;
 
 import com.android.internal.R;
 
@@ -298,7 +300,13 @@ public abstract class SMSDispatcher extends Handler {
 
             sms = (SmsMessage) ar.result;
             try {
+                SystemProperties.set("phone.sms.lock","-1");
                 int result = dispatchMessage(sms.mWrappedSmsMessage);
+                // indicate lock MMS app for ~30 seconds..
+                // note phone.sms.lock uses "long" 1024ms seconds not
+                // 1000ms seconds.. thus actual wait is 30.7s
+                SystemProperties.set("phone.sms.lock",Long.toString(
+                                    (SystemClock.uptimeMillis() >> 10)+30));
                 if (result != Activity.RESULT_OK) {
                     // RESULT_OK means that message was broadcast for app(s) to handle.
                     // Any other result, we should ack here.

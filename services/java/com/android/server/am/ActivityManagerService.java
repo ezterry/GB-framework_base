@@ -11509,6 +11509,20 @@ public final class ActivityManagerService extends ActivityManagerNative
         app.empty = false;
         app.hidden = false;
 
+        boolean app_is_mms = "com.android.mms".equals(app.processName);
+        if(app_is_mms){
+            long tm = Long.parseLong(SystemProperties.get("phone.sms.lock"));
+            if(tm == 0){
+                //We are not in a locked state, clear the flag
+                //as we will not adjust MMS
+                app_is_mms = false;
+            } else if(tm > 0 && tm < (SystemClock.uptimeMillis() >> 10)){
+                //We had a timed lock; but it has since expired clear
+                //the flag, and zero the lock for quicker future processing
+                app_is_mms = false;
+                SystemProperties.set("phone.sms.lock","0");
+            }
+        }
         // Determine the importance of the process, starting with most
         // important to least, and assign an appropriate OOM adjustment.
         int adj;
@@ -11537,7 +11551,13 @@ public final class ActivityManagerService extends ActivityManagerNative
             adj = FOREGROUND_APP_ADJ;
             schedGroup = Process.THREAD_GROUP_DEFAULT;
             app.adjType = "exec-service";
-        } else if (app.foregroundServices) {
+        } else if (app_is_mms) {
+            //App is MMS app and we are in a locked state
+            adj = FOREGROUND_APP_ADJ;
+            schedGroup = Process.THREAD_GROUP_DEFAULT;
+            app.adjType = "mms-locked";
+        }
+        else if (app.foregroundServices) {
             // The user is aware of this app, so make it visible.
             adj = PERCEPTIBLE_APP_ADJ;
             schedGroup = Process.THREAD_GROUP_DEFAULT;
