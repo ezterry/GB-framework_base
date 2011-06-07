@@ -134,7 +134,10 @@
     <string name="screen_lock" msgid="799094655496098153">"Display-Sperre"</string>
     <string name="power_off" msgid="4266614107412865048">"Ausschalten"</string>
     <string name="shutdown_progress" msgid="2281079257329981203">"Wird heruntergefahren..."</string>
+    <string name="reboot_progress">"Wird neu gestartet ..."</string>
     <string name="shutdown_confirm" msgid="649792175242821353">"Telefon wird heruntergefahren."</string>
+    <string name="reboot_confirm">"Telefon wird neu gestartet."</string>
+    <string name="reboot_system">"Neustart des Systems."</string>
     <string name="recent_tasks_title" msgid="3691764623638127888">"Zuletzt verwendet"</string>
     <string name="no_recent_tasks" msgid="279702952298056674">"Keine zuletzt verwendeten Anwendungen"</string>
     <string name="global_actions" msgid="2406416831541615258">"Telefonoptionen"</string>
@@ -143,6 +146,7 @@
     <string name="global_action_toggle_silent_mode" msgid="8219525344246810925">"Lautlos"</string>
     <string name="global_action_silent_mode_on_status" msgid="3289841937003758806">"Ton ist AUS."</string>
     <string name="global_action_silent_mode_off_status" msgid="1506046579177066419">"Ton ist AN."</string>
+    <string name="global_action_reboot">"Neustart"</string>
     <string name="global_actions_toggle_airplane_mode" msgid="5884330306926307456">"Flugmodus"</string>
     <string name="global_actions_airplane_mode_on_status" msgid="2719557982608919750">"Flugmodus ist AN."</string>
     <string name="global_actions_airplane_mode_off_status" msgid="5075070442854490296">"Flugmodus ist AUS."</string>
