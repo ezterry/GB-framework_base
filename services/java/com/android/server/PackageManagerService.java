@@ -2953,9 +2953,15 @@ class PackageManagerService extends IPackageManager.Stub {
                 s1 = ((SharedUserSetting)obj).signatures.mSignatures;
             }
             if ((checkSignaturesLP(pkg.mSignatures, s1) == PackageManager.SIGNATURE_MATCH)) {
-                Slog.w(TAG, "Cannot install Superuser packages to user storage");
-                mLastScanError = PackageManager.INSTALL_FAILED_INVALID_INSTALL_LOCATION;
-                return null;
+                if(SystemProperties.get("runtime.sys.su.allowupdate","0")
+                    .equals("1"))
+                {
+                    Slog.w(TAG, "WARNING!!!! APP USING SUPERUSER KEY");
+                } else {
+                    Slog.w(TAG, "Cannot install Superuser packages to user storage");
+                    mLastScanError = PackageManager.INSTALL_FAILED_INVALID_INSTALL_LOCATION;
+                    return null;
+                }
             }
         }
 
