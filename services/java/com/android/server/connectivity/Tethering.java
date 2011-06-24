@@ -216,6 +216,11 @@ public class Tethering extends INetworkManagementEventObserver.Stub {
         return false;
     }
 
+    public boolean isBTPan(String iface) {
+        if (iface.matches("bnep\\d")) return true;
+        return false;
+    }
+
     public void interfaceAdded(String iface) {
         IBinder b = ServiceManager.getService(Context.NETWORKMANAGEMENT_SERVICE);
         INetworkManagementService service = INetworkManagementService.Stub.asInterface(b);
@@ -227,6 +232,9 @@ public class Tethering extends INetworkManagementEventObserver.Stub {
         if (isUsb(iface)) {
             found = true;
             usb = true;
+        }
+        if(isBTPan(iface)){
+            found = true;
         }
         if (found == false) {
             Log.d(TAG, iface + " is not a tetherable iface, ignoring");
@@ -321,6 +329,7 @@ public class Tethering extends INetworkManagementEventObserver.Stub {
 
         boolean wifiTethered = false;
         boolean usbTethered = false;
+        boolean btTethered = false;
 
         synchronized (mIfaces) {
             Set ifaces = mIfaces.keySet();
@@ -336,6 +345,8 @@ public class Tethering extends INetworkManagementEventObserver.Stub {
                             usbTethered = true;
                         } else if (isWifi((String)iface)) {
                             wifiTethered = true;
+                        } else if (isBTPan((String)iface)) {
+                            btTethered = true;
                         }
                         activeList.add((String)iface);
                     }
@@ -361,6 +372,8 @@ public class Tethering extends INetworkManagementEventObserver.Stub {
             }
         } else if (wifiTethered) {
             showTetheredNotification(com.android.internal.R.drawable.stat_sys_tether_wifi);
+        } else if (btTethered) {
+            showTetheredNotification(com.android.internal.R.drawable.stat_sys_tether_bluetooth);
         } else {
             clearTetheredNotification();
         }
