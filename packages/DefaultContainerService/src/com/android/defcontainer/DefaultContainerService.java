@@ -394,7 +394,7 @@ public class DefaultContainerService extends IntentService {
             if ((flags & PackageManager.INSTALL_FORWARD_LOCK) != 0) {
                 // Check for forward locked app
                 checkInt = true;
-                checkSDExt = true;
+                checkSDExt = android.os.Environment.IsSdExtMounted();
                 break check_inner;
             } else if ((flags & PackageManager.INSTALL_INTERNAL) != 0) {
                 // Explicit flag to install internally.
@@ -417,7 +417,7 @@ public class DefaultContainerService extends IntentService {
             }
             if (installLocation == PackageInfo.INSTALL_LOCATION_INTERNAL_ONLY) {
                 checkInt = true;
-                checkSDExt = true;
+                checkSDExt = android.os.Environment.IsSdExtMounted();
                 break check_inner;
             } else if (installLocation == PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL) {
                 checkExt = true;
@@ -483,7 +483,10 @@ public class DefaultContainerService extends IntentService {
         long reqInternalSize = 0;
         boolean intThresholdOk = (pctNandFree >= LOW_NAND_FLASH_TRESHOLD);
         boolean intAvailOk = ((reqInstallSize + reqInternalSize) < availInternalSize);
-        boolean fitsOnSDExt = ((reqInstallSize + reqInternalSize) < availsdextSize);
+        boolean fitsOnSDExt = false;
+        if( android.os.Environment.IsSdExtMounted()){
+            fitsOnSDExt=((reqInstallSize + reqInternalSize) < availsdextSize);
+        }
         boolean fitsOnSd = false;
         if (mediaAvailable && (reqInstallSize < availSDSize)) {
             // If we do not have an internal size requirement

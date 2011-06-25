@@ -4799,7 +4799,12 @@ class PackageManagerService extends IPackageManager.Stub {
                             } else if (installLocation == PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL) {
                                 // App explictly prefers external. Let policy decide
                             } else if (installLocation == PackageInfo.INSTALL_LOCATION_PREFER_SDEXT) {
-                                return PackageHelper.RECOMMEND_INSTALL_SDEXT;
+                                if (android.os.Environment.IsSdExtMounted()) {
+                                    // App explictly prefers sd-ext force it
+                                    return PackageHelper.RECOMMEND_INSTALL_SDEXT;
+                                }
+                                // App wants sd-ext .. but no sd-ext:
+                                // Let policy decide
                             } else {
                                 // Prefer previous location
                                 if (isExternal(pkg)) {
@@ -4821,7 +4826,7 @@ class PackageManagerService extends IPackageManager.Stub {
             if (onSd) {
                 return PackageHelper.RECOMMEND_INSTALL_EXTERNAL;
             }
-            if (onSdext) {
+            if (onSdext && android.os.Environment.IsSdExtMounted()) {
                 return PackageHelper.RECOMMEND_INSTALL_SDEXT;
             }
             return pkgLite.recommendedInstallLocation;
