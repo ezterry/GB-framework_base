@@ -407,7 +407,7 @@ public class GpsNetInitiatedHandler {
     static private String getNotifMessage(GpsNiNotification notif)
     {
         String message = String.format(
-                "NI Request received from [%s] for client [%s]!",
+                "NI Request received from [%s] for client [%s]",
                 decodeString(notif.requestorId, mIsHexInput, notif.requestorIdEncoding),
                 decodeString(notif.text, mIsHexInput, notif.textEncoding));
         return message;
