@@ -4,6 +4,25 @@
    ==  in this case for the Android-specific code.                        ==
    =========================================================================
 
+ezGingerbread code
+Copyright 2010-2011 Terrence Ezrol for ezGingerbread project
+https://github.com/ezterry/
+
+Code distributed under the Apache License, Version 2.0
+
+Note additional pieces of code are from CyanogenMod:
+Copyright (c) 2009-2011, The CyanogenMod Project
+
+Also distributed under the Apache License, Version 2.0
+Please see the CyanogenMod Project NOTICE.cm files for additional details
+regarding the CyanogenMod copyright and code. 
+
+   =========================================================================
+   ==  NOTICE file corresponding to the section 4 d of                    ==
+   ==  the Apache License, Version 2.0,                                   ==
+   ==  in this case for the Android-specific code.                        ==
+   =========================================================================
+
 Android Code
 Copyright 2005-2008 The Android Open Source Project
 
