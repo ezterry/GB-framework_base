@@ -331,6 +331,9 @@ void DisplayHardware::flip(const Region& dirty) const
     }
     
     mPageFlipCount++;
+    // glFinish here prevents the impedence mismatch between software-rendered
+    // surfaceflinger surfaces in another thread. Shows no perf loss with vsync
+    glFinish();
     eglSwapBuffers(dpy, surface);
     checkEGLErrors("eglSwapBuffers");
 
