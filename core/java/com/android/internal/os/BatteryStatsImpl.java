@@ -1825,6 +1825,7 @@ public final class BatteryStatsImpl extends BatteryStats {
                     bin = DATA_CONNECTION_HSUPA;
                     break;
                 case TelephonyManager.NETWORK_TYPE_HSPA:
+                case TelephonyManager.NETWORK_TYPE_HSPAP:
                     bin = DATA_CONNECTION_HSPA;
                     break;
                 case TelephonyManager.NETWORK_TYPE_IDEN:
