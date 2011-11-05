@@ -64,7 +64,9 @@ public class ZygoteInit {
     private static final int LOG_BOOT_PROGRESS_PRELOAD_END = 3030;
 
     /** when preloading, GC after allocating this many bytes */
-    private static final int PRELOAD_GC_THRESHOLD = 50000;
+    /*private static final int PRELOAD_GC_THRESHOLD = 50000;*/
+    /*For DS increase to 5MB from origial ~50k*/
+    private static final int PRELOAD_GC_THRESHOLD = (1024 * 1024 * 5);
 
     public static final String USAGE_STRING =
             " <\"true\"|\"false\" for startSystemServer>";
