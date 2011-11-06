@@ -1887,6 +1887,12 @@ public final class Settings {
         public static final String SIP_ASK_ME_EACH_TIME = "SIP_ASK_ME_EACH_TIME";
 
         /**
+         * URI to Override for incomming call touch ui
+         * @hide
+         */
+        public static final String PHONE_FORCE_INCOMING_CALL_UI = "PHONE_FORCE_INCOMING_CALL_UI";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          * @hide
