@@ -609,7 +609,7 @@ class PackageManagerService extends IPackageManager.Stub {
                         InstallArgs args = data.args;
                         PackageInstalledInfo res = data.res;
 
-                        if (res.returnCode == PackageManager.INSTALL_SUCCEEDED) {
+                        if (res.returnCode == PackageManager.INSTALL_SUCCEEDED ) {
                             res.removedInfo.sendBroadcast(false, true);
                             Bundle extras = new Bundle(1);
                             extras.putInt(Intent.EXTRA_UID, res.uid);
@@ -617,11 +617,13 @@ class PackageManagerService extends IPackageManager.Stub {
                             if (update) {
                                 extras.putBoolean(Intent.EXTRA_REPLACING, true);
                             }
-                            sendPackageBroadcast(Intent.ACTION_PACKAGE_ADDED,
+                            sendPackageBroadcast(
+                                    Intent.ACTION_PACKAGE_ADDED,
                                     res.pkg.applicationInfo.packageName,
                                     extras, null);
                             if (update) {
-                                sendPackageBroadcast(Intent.ACTION_PACKAGE_REPLACED,
+                                sendPackageBroadcast(
+                                        Intent.ACTION_PACKAGE_REPLACED,
                                         res.pkg.applicationInfo.packageName,
                                         extras, null);
                             }
@@ -755,6 +757,7 @@ class PackageManagerService extends IPackageManager.Stub {
                 Process.SYSTEM_UID, ApplicationInfo.FLAG_SYSTEM);
         mSettings.addSharedUserLP("android.uid.superuser",
                 Process.SUPERUSER_UID, ApplicationInfo.FLAG_SYSTEM);
+        SystemProperties.set("runtime.sys.su.allowupdate","1");
         mSettings.addSharedUserLP("android.uid.phone",
                 MULTIPLE_APPLICATION_UIDS
                         ? RADIO_UID : FIRST_APPLICATION_UID,
@@ -1068,6 +1071,7 @@ class PackageManagerService extends IPackageManager.Stub {
             Slog.i(TAG, "Time to scan packages: "
                     + ((SystemClock.uptimeMillis()-startTime)/1000f)
                     + " seconds");
+            SystemProperties.set("runtime.sys.su.allowupdate","0");
 
             // If the platform SDK has changed since the last time we booted,
             // we need to re-grant app permission to catch any new ones that

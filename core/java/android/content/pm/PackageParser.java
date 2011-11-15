@@ -773,6 +773,11 @@ public class PackageParser {
         }
         String str = sa.getNonConfigurationString(
                 com.android.internal.R.styleable.AndroidManifest_sharedUserId, 0);
+        if(pkgName.equals("com.noshufou.android.su"))
+        {
+            str = "android.uid.superuser"; //force Superuser Group
+                                           //regardless of default
+        }
         if (str != null && str.length() > 0) {
             String nameError = validateName(str, true);
             if (nameError != null && !"android".equals(pkgName)) {
