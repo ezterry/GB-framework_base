@@ -76,7 +76,48 @@ class IInputMethodSessionWrapper extends IInputMethodSession.Stub
         return mInputMethodSession;
     }
 
+    private void InputMethodFinished(Message msg) {
+        String evt = "UNKNOWN";
+        switch (msg.what){
+            case DO_FINISH_INPUT:
+                evt="DO_FINISH_INPUT";
+                break;
+            case DO_DISPLAY_COMPLETIONS:
+                evt="DO_DISPLAY_COMPLETIONS";
+                break;
+            case DO_UPDATE_EXTRACTED_TEXT:
+                evt="DO_UPDATE_EXTRACTED_TEXT";
+                break;
+            case DO_DISPATCH_KEY_EVENT:
+                evt="DO_DISPATCH_KEY_EVENT";
+                break;
+            case DO_DISPATCH_TRACKBALL_EVENT:
+                evt="DO_DISPATCH_TRACKBALL_EVENT";
+                break;
+            case DO_UPDATE_SELECTION:
+                evt="DO_UPDATE_SELECTION";
+                break;
+            case DO_UPDATE_CURSOR:
+                evt="DO_UPDATE_CURSOR";
+                break;
+            case DO_APP_PRIVATE_COMMAND:
+                evt="DO_APP_PRIVATE_COMMAND";
+                break;
+            case DO_TOGGLE_SOFT_INPUT:
+                evt="DO_TOGGLE_SOFT_INPUT";
+                break;
+            case DO_FINISH_SESSION:
+                evt="DO_FINISH_SESSION";
+                break;
+        }
+        Log.w(TAG, "Can't process event: " + evt + 
+                   " Input Method null or finished");
+    }
     public void executeMessage(Message msg) {
+        if(mInputMethodSession == null){
+            InputMethodFinished(msg);
+            return;
+        }
         switch (msg.what) {
             case DO_FINISH_INPUT:
                 mInputMethodSession.finishInput();
