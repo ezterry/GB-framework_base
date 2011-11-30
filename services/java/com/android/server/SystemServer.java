@@ -487,6 +487,12 @@ class ServerThread extends Thread {
             } catch (RemoteException e) {
             }
         } else {
+            try {
+                Slog.i(TAG, "CPUSpeed [CPUFreq] Service");
+                (new CPUSpeedService(mContentResolver)).start();
+            } catch (Throwable e) {
+                Slog.e(TAG, "Failure starting CPUSpeed [CPUFreq] Service", e);
+            }
             // Enable the JIT for the system_server process
             VMRuntime.getRuntime().startJitCompilation();
         }
